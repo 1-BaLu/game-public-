@@ -1,0 +1,91 @@
+from cmu_graphics import *
+app.background='black'
+#basic structures
+leftPerson = Rect(10, 200, 10, 50, fill = 'white')
+rightPerson = Rect(380, 200, 10, 50, fill = 'white')
+ball = Circle(200, 300, 10, fill = 'white')
+ball.dx = 0
+ball.dy = 0
+
+#middleLine
+Line(200, 0, 200, 400, fill = 'white', dashes=True)
+
+#scores
+leftPersonLabel=Label(0,100,25,fill='white',size=50)
+rightPersonLabel=Label(0,300,25,fill='white',size=50)
+
+def onKeyPress(key):
+#move the left player
+    if (key == 'w'):
+        leftPerson.centerY-=20
+     
+    if (key == 's'):
+        leftPerson.centerY+=20
+        
+    if ((key == 'w') and (ball.dx==0) and (ball.dy==0)):
+        leftPerson.centerY-=20
+        ball.dx = randrange(3,5)
+        ball.dy = randrange(3,5)
+    if (leftPerson.hits(15,0) == True):
+        leftPerson.centerY = 10
+            
+    if ((key == 's') and (ball.dx==0) and (ball.dy==0)):
+        leftPerson.centerY+=20
+        ball.dx = randrange(3,5)
+        ball.dy = randrange(3,5)
+    if (leftPerson.hits(15,400) == True):
+        leftPerson.centerY = 395
+    
+#move the right player
+    if (key == 'up'):
+        rightPerson.centerY-=30
+    if (key == 'down'):
+        rightPerson.centerY+=30
+    if ((key == 'up') and (ball.dx==0) and (ball.dy==0)):
+        rightPerson.centerY-=30
+        ball.dx = randrange(-5,-3)
+        ball.dy = randrange(-5,-3)
+    if (rightPerson.hits(385,0) == True):
+        rightPerson.centerY = 10
+    if ((key == 'down') and (ball.dx==0) and (ball.dy==0)):
+        rightPerson.centerY+=30
+        ball.dx = randrange(-5,-3)
+        ball.dy = randrange(-5,-3)
+    if (rightPerson.hits(386,400) == True):
+        rightPerson.centerY = 395
+        
+def onStep():
+    ball.centerX+=ball.dx
+    ball.centerY+=ball.dy
+#if the ball hits the ceiling
+    if (ball.top <= 0):
+        ball.dy = randrange(3,5)
+        
+#if the ball hits the floor
+    if (ball.bottom >= 400):
+        ball.dy = -randrange(3,5)
+#if ball hits rightPerson
+    if (ball.hitsShape(rightPerson)):
+        ball.dx = randrange(-5,-3)
+#if ballhits leftPerson       
+    if (ball.hitsShape(leftPerson)):
+        ball.dx = randrange(3,5)
+        
+#scores
+    if (ball.centerX<=0):
+        rightPersonLabel.value+=1
+        ball.centerX=200
+        ball.centerY=300
+        ball.dx=0
+        ball.dy=0
+        
+    if (ball.centerX>=400):
+        leftPersonLabel.value+=1
+        ball.centerX=200
+        ball.centerY=300
+        ball.dx=0
+        ball.dy=0
+    
+        
+    
+cmu_graphics.loop()
