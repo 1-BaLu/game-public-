@@ -1,0 +1,204 @@
+from cmu_graphics import *
+
+app.background='black'
+leftPerson = Rect(10, 200, 10, 50, fill = 'white')
+rightPerson = Rect(380, 200, 10, 50, fill = 'white')
+
+ball1 = Circle(200, 300, 10, fill=gradient('purple','hotPink', 'beige', start='center'))
+ball2 = Circle(200, 100, 10, fill=gradient('yellow', 'orange', 'red', start='center'))
+ball1.dx = 0
+ball1.dy = 0
+ball2.dx = 0
+ball2.dy = 0
+
+#middleLine
+middleLine = Line(200, 0, 200, 400, fill = 'white', dashes=True)
+
+#scores
+leftPersonLabel=Label(0,100,25,fill='white',size=50)
+rightPersonLabel=Label(0,300,25,fill='white',size=50)
+game = Group(leftPerson,rightPerson,ball1,ball2,leftPersonLabel,rightPersonLabel,middleLine)
+game.x=0
+game.visible=False
+
+#movement selection screen
+tapbox=Rect(10,100,180,290,fill=None,border='white')
+holdBox=Rect(210,100,180,290,fill=None,border='white')
+tap=Label('tap',100,250,fill='white',size=35)
+hold=Label('hold',300,250,fill='white',size=35)
+title=Label('Click One to Play',200,50,fill='white',size=30)
+
+
+movementSelectionScreen = Group(tapbox,holdBox,tap,hold,title)
+
+def onMousePress(mouseX,mouseY):
+    if (mouseX <= 190 and mouseX >= 10 and mouseY <= 390 and mouseY >= 100):
+        movementSelectionScreen.visible=False
+        game.visible=True
+        game.x=1
+    if (mouseX <=390 and mouseX >= 210 and mouseY <= 300 and mouseY >100):
+        movementSelectionScreen.visible=False
+        game.visible=True
+        game.x=2
+   # if (mouseX <=
+def onKeyPress(key):
+    if (game.x == 1):
+#move the left player
+        if (key == 'w'):
+            leftPerson.centerY-=30
+     
+        if (key == 's'):
+            leftPerson.centerY+=30
+        
+        if ((key == 'w') and (ball1.dx==0) and (ball1.dy==0)):
+            leftPerson.centerY-=30
+            ball1.dx = randrange(3,5)
+            ball1.dy = randrange(3,5)
+        if (leftPerson.hits(15,0) == True):
+            leftPerson.centerY = 10
+        if ((key == 'w') and (ball2.dx==0) and (ball2.dy==0)):
+            leftPerson.centerY-=30
+            ball2.dx = randrange(3,5)
+            ball2.dy = randrange(3,5)
+        if ((key == 's') and (ball1.dx==0) and (ball1.dy==0)):
+            leftPerson.centerY+=30
+            ball1.dx = randrange(3,5)
+            ball1.dy = randrange(3,5)
+        if (leftPerson.hits(15,400) == True):
+            leftPerson.centerY = 395
+        if ((key == 's') and (ball2.dx==0) and (ball2.dy==0)):
+            leftPerson.centerY+=30
+            ball2.dx = randrange(3,5)
+            ball2.dy = randrange(3,5)
+#move the right player
+        if (key == 'up'):
+            rightPerson.centerY-=30
+        if (key == 'down'):
+            rightPerson.centerY+=30
+        if ((key == 'up') and (ball1.dx==0) and (ball1.dy==0)):
+            rightPerson.centerY-=30
+            ball1.dx = randrange(-5,-3)
+            ball1.dy = randrange(-5,-3)
+        if ((key == 'up') and (ball2.dx==0) and (ball2.dy==0)):
+            rightPerson.centerY-=30
+            ball2.dx = randrange(-5,-3)
+            ball2.dy = randrange(-5,-3)
+        if ((key == 'down') and (ball1.dx==0) and (ball1.dy==0)):
+            rightPerson.centerY+=30
+            ball1.dx = randrange(-5,-3)
+            ball1.dy = randrange(-5,-3)
+        if ((key == 'down') and (ball2.dx==0) and (ball2.dy==0)):
+            rightPerson.centerY+=30
+            ball2.dx = randrange(-5,-3)
+            ball2.dy = randrange(-5,-3)
+def onKeyHold(key):
+    if (game.x == 2):
+#move the left player
+        if ('w' in key):
+            leftPerson.centerY-=10
+     
+        if ('s' in key):
+            leftPerson.centerY+=10
+        
+        if (('w' in key) and (ball1.dx==0) and (ball1.dy==0)):
+            leftPerson.centerY-=10
+            ball1.dx = randrange(3,5)
+            ball1.dy = randrange(3,5)
+    
+        if (('w' in key) and (ball2.dx==0) and (ball2.dy==0)):
+            leftPerson.centerY-=10
+            ball2.dx = randrange(3,5)
+            ball2.dy = randrange(3,5)
+    
+        if (('s' in key) and (ball1.dx==0) and (ball1.dy==0)):
+            leftPerson.centerY+=10
+            ball1.dx = randrange(3,5)
+            ball1.dy = randrange(3,5)
+    
+        if (('s' in key) and (ball2.dx==0) and (ball2.dy==0)):
+            leftPerson.centerY+=10
+            ball2.dx = randrange(3,5)
+            ball2.dy = randrange(3,5)
+            
+#move the right player
+        if ('up' in key):
+            rightPerson.centerY-=10
+        if ('down' in key):
+            rightPerson.centerY+=10
+        if (('up' in key) and (ball1.dx==0) and (ball1.dy==0)):
+            rightPerson.centerY-=10
+            ball1.dx = randrange(-5,-3)
+            ball1.dy = randrange(-5,-3)
+    
+        if (('up' in key) and (ball2.dx==0) and (ball2.dy==0)):
+            rightPerson.centerY-=10
+            ball2.dx = randrange(-5,-3)
+            ball2.dy = randrange(-5,-3)
+        
+        if (('down' in key) and (ball1.dx==0) and (ball1.dy==0)):
+            rightPerson.centerY+=10
+            ball1.dx = randrange(-5,-3)
+            ball1.dy = randrange(-5,-3)
+        
+        if (('down' in key) and (ball2.dx==0) and (ball2.dy==0)):
+            rightPerson.centerY+=10
+            ball2.dx = randrange(-5,-3)
+            ball2.dy = randrange(-5,-3)
+        
+        
+def onStep():
+    ball1.centerX+=ball1.dx
+    ball1.centerY+=ball1.dy
+    ball2.centerX+=ball2.dx
+    ball2.centerY+=ball2.dy
+#if the ball hits the ceiling
+    if (ball1.top <= 0):
+        ball1.dy = randrange(3,5)
+    if (ball2.top <= 0):
+        ball2.dy = randrange(3,5)
+        
+#if the ball hits the floor
+    if (ball1.bottom >= 400):
+        ball1.dy = -randrange(3,5)
+    if (ball2.bottom >= 400):
+        ball2.dy = -randrange(3,5)
+#if ball hits rightPerson
+    if (ball1.hitsShape(rightPerson)):
+        ball1.dx = randrange(-5,-3)
+    if (ball2.hitsShape(rightPerson)):
+        ball2.dx = randrange(-5,-3)
+#if ballhits leftPerson       
+    if (ball1.hitsShape(leftPerson)):
+        ball1.dx = randrange(3,5)
+    if (ball2.hitsShape(leftPerson)):
+        ball2.dx = randrange(3,5)
+        
+#scores
+    if (ball1.centerX<=0):
+        rightPersonLabel.value+=1
+        ball1.centerX=200
+        ball1.centerY=100
+        ball1.dx=0
+        ball1.dy=0
+    if (ball2.centerX<=0):
+        rightPersonLabel.value+=1
+        ball2.centerX=200
+        ball2.centerY=300
+        ball2.dx=0
+        ball2.dy=0
+        
+    if (ball1.centerX>=400):
+        leftPersonLabel.value+=1
+        ball1.centerX=200
+        ball1.centerY=100
+        ball1.dx=0
+        ball1.dy=0
+    if (ball2.centerX>=400):
+        leftPersonLabel.value+=1
+        ball2.centerX=200
+        ball2.centerY=300
+        ball2.dx=0
+        ball2.dy=0
+
+    
+cmu_graphics.loop()
